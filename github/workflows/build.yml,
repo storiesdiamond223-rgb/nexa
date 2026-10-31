@@ -1,1 +1,32 @@
-name: Build Nexa APK23on:4  workflow_dispatch:5  push:67jobs:8  build:9    runs-on: ubuntu-latest10    steps:11      - uses: actions/checkout@v41213      - name: Unzip project14        run: unzip -q nexa.zip -d proj1516      - uses: actions/setup-java@v417        with:18          distribution: temurin19          java-version: 172021      - uses: gradle/actions/setup-gradle@v422        with:23          gradle-version: "8.7"2425      - name: Build APK26        working-directory: proj/nexa27        run: gradle assembleDebug --no-daemon2829      - uses: actions/upload-artifact@v430        with:31          name: Nexa-APK32          path: proj/nexa/app/build/outputs/apk/debug/app-debug.apk33
+name: Build Nexa APK
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unzip project
+        run: unzip -q nexa.zip -d proj
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.7"
+
+      - name: Build APK
+        working-directory: proj/nexa
+        run: gradle assembleDebug --no-daemon
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nexa-APK
+          path: proj/nexa/app/build/outputs/apk/debug/app-debug.apk
